@@ -1,7 +1,7 @@
 package dk.cphbusiness.facade;
 
 import dk.cphbusiness.entity.Phone;
-import exceptions.PhoneNotFoundException;
+import dk.cphbusiness.exceptions.PhoneNotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
