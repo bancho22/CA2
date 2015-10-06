@@ -24,7 +24,7 @@ public class PhoneFacade {
 
     }
 
-    public Phone addPerson(Phone p) {
+    public Phone addPhone(Phone p) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();

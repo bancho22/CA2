@@ -100,7 +100,7 @@ public class TestDataGenerator {
             phone.setNumber("+45" + phoneNumCombiations[rand.nextInt(UPPER_BOUND - LOWER_BOUND)]);
             phone.setOwner(ief.getInfoEntity(i/3+1));
             phone.setDescription("blah-blah");
-            pf.addPerson(phone);
+            pf.addPhone(phone);
         }
     }
     
