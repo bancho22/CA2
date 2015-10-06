@@ -14,16 +14,10 @@ import dk.cphbusiness.exceptions.PhoneNotFoundException;
 import dk.cphbusiness.facade.InfoEntityFacade;
 import dk.cphbusiness.facade.PhoneFacade;
 import dk.cphbusiness.test_data.TestDataGenerator;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Persistence;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -34,20 +28,24 @@ import static org.junit.Assert.*;
  */
 public class InfoEntityFacadeTest {
 
-    private final String PERSISTENCE_UNIT_NAME = "CA2PU";
+    private static final String PERSISTENCE_UNIT_NAME = "CA2PU";
     private InfoEntityFacade ief;
     private PhoneFacade pf;
 
     public InfoEntityFacadeTest() {
-        TestDataGenerator.populateTables(PERSISTENCE_UNIT_NAME);
         ief = new InfoEntityFacade(Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME));
         pf = new PhoneFacade(Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME));
+    }
+    
+    @BeforeClass
+    public static void setUpDataBase(){
+        TestDataGenerator.populateTables(PERSISTENCE_UNIT_NAME);
     }
 
     @Test
     public void getInfoEntityTest() {
         InfoEntity ie = ief.getInfoEntity(1);
-        System.out.println(ie.toString());
+        //System.out.println(ie.getPhones());
         assertTrue(ie.getId() == 1);
     }
     
@@ -81,8 +79,8 @@ public class InfoEntityFacadeTest {
         
         Person expected = (Person) owner;
         Person result = ief.getPersonByPhone(phone.getNumber());
-        System.out.println(expected.toString());
-        System.out.println(result.toString());
-        assertTrue("expected: " + expected.toString() + ", result: " + result.toString(), expected.toString().equals(result.toString()));
+//        System.out.println(expected.getPhones());
+//        System.out.println(result.getPhones());
+        assertTrue("expected: " + expected.getFirstName() + ", result: " + result.getFirstName(), expected.getFirstName().equals(result.getFirstName()));
     }
 }

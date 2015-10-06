@@ -35,6 +35,9 @@ public class InfoEntityFacade {
         InfoEntity infoEntity = null;
         try{
             infoEntity = em.find(InfoEntity.class, id);
+            Query query = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
+            query.setParameter("owner", infoEntity);
+            infoEntity.setPhones(query.getResultList());
         }finally{
             em.close();
         }
@@ -102,6 +105,9 @@ public class InfoEntityFacade {
             InfoEntity result = (InfoEntity) query.getSingleResult();
             if (result.getClass().equals(Person.class)) {
                 person = (Person) result;
+                Query phonesQuery = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
+                phonesQuery.setParameter("owner", person);
+                person.setPhones(phonesQuery.getResultList());
             }else{
                 throw new PhoneDoesNotBelongToPersonException();
             }
