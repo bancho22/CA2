@@ -1,6 +1,5 @@
 package tester;
 
-
 import dk.cphbusiness.test_data.TestDataGenerator;
 
 /**
@@ -11,7 +10,7 @@ public class Tester {
     
     public static void main(String[] args) {
         
-        TestDataGenerator.populateTables();
+        TestDataGenerator.populateTables("CA2PU");
         
     }
     

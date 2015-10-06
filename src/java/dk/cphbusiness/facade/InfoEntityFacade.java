@@ -7,6 +7,8 @@ package dk.cphbusiness.facade;
 
 import dk.cphbusiness.entity.Company;
 import dk.cphbusiness.entity.InfoEntity;
+import dk.cphbusiness.entity.Person;
+import dk.cphbusiness.exceptions.PhoneDoesNotBelongToPersonException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -89,5 +91,23 @@ public class InfoEntityFacade {
             em.close();
         }
         return companies;
+    }
+    
+    public Person getPersonByPhone(String phone) throws PhoneDoesNotBelongToPersonException{
+        EntityManager em = getEntityManager();
+        Person person = null;
+        try{
+            Query query = em.createQuery("SELECT p.owner FROM Phone p WHERE p.number = :num");
+            query.setParameter("num", phone);
+            InfoEntity result = (InfoEntity) query.getSingleResult();
+            if (result.getClass().equals(Person.class)) {
+                person = (Person) result;
+            }else{
+                throw new PhoneDoesNotBelongToPersonException();
+            }
+        }finally{
+            em.close();
+        }
+        return person;
     }
 }

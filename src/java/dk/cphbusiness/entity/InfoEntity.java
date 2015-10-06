@@ -65,6 +65,27 @@ public class InfoEntity implements Serializable {
         this.id = id;
     }
 
+    public List<Phone> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<Phone> phones) {
+        this.phones = phones;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "InfoEntity{" + "id=" + id + ", Email=" + Email + ", phones=" + phones + ", address=" + address + '}';
+    }
+
     
     
 }

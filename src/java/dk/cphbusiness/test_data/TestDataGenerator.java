@@ -7,7 +7,9 @@ package dk.cphbusiness.test_data;
 
 import dk.cphbusiness.entity.Company;
 import dk.cphbusiness.entity.Person;
+import dk.cphbusiness.entity.Phone;
 import dk.cphbusiness.facade.InfoEntityFacade;
+import dk.cphbusiness.facade.PhoneFacade;
 import java.util.Random;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -20,21 +22,24 @@ public class TestDataGenerator {
     
     private static Random rand;
     
-    public static void populateTables(){
+    private static InfoEntityFacade ief;
+    private static PhoneFacade pf;
+    
+    public static void populateTables(String persistenceUnitName){
         
-        Persistence.generateSchema("CA2PU", null);
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("CA2PU");
+        Persistence.generateSchema(persistenceUnitName, null);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(persistenceUnitName);
         
         rand = new Random();
+        ief = new InfoEntityFacade(emf);
+        pf = new PhoneFacade(emf);
         
-        populateInfoEntityTable(emf);
-        
+        populateInfoEntityTable();
+        populatePhoneTable();
     }
     
     
-    private static void populateInfoEntityTable(EntityManagerFactory emf){
-        InfoEntityFacade ief = new InfoEntityFacade(emf);
-        
+    private static void populateInfoEntityTable(){
         final int NAME_ARRAYS_LENGTH = 7;
         
         String[] firstNames = new String[NAME_ARRAYS_LENGTH];
@@ -73,6 +78,25 @@ public class TestDataGenerator {
             c.setNumEmployees(rand.nextInt(1000));
             c.setMarketValue(rand.nextInt(1000000000));
             ief.addInfoEntity(c);
+        }
+    }
+    
+    
+    private static void populatePhoneTable(){
+        final int UPPER_BOUND = 99999999 + 1;
+        final int LOWER_BOUND = 77777777;
+        int[] phoneNumCombiations = new int[UPPER_BOUND - LOWER_BOUND];
+        
+        for (int i = LOWER_BOUND; i < UPPER_BOUND; i++) {
+            phoneNumCombiations[i - LOWER_BOUND] = i;
+        }
+        
+        for (int i = 0; i < 600; i++) {
+            Phone phone = new Phone();
+            phone.setNumber("+45" + phoneNumCombiations[rand.nextInt(UPPER_BOUND - LOWER_BOUND)]);
+            phone.setOwner(ief.getInfoEntity(i/3+1));
+            phone.setDescription("blah-blah");
+            pf.addPerson(phone);
         }
     }
     

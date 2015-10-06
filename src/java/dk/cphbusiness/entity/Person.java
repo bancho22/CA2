@@ -63,6 +63,11 @@ public class Person extends InfoEntity implements Serializable {
     public void setHobbies(List<Hobby> hobbies) {
         this.hobbies = hobbies;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Person{" + "firstName=" + firstName + ", lastName=" + lastName + ", hobbies=" + hobbies + '}';
+    }
     
     
     
