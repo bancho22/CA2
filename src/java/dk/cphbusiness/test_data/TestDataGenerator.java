@@ -20,6 +20,10 @@ import javax.persistence.Persistence;
  */
 public class TestDataGenerator {
     
+    public static void main(String[] args) {
+        populateTables("CA2PU");
+    }
+    
     private static Random rand;
     
     private static InfoEntityFacade ief;
