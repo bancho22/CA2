@@ -31,8 +31,7 @@ public class Person extends InfoEntity implements Serializable {
 
     public Person() {
     }
-    
-    
+
 
 //    public Integer getId() {
 //        return id;
