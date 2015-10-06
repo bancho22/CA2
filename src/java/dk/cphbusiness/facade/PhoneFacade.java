@@ -14,8 +14,9 @@ public class PhoneFacade {
     //get,add,edit,delete
     private EntityManagerFactory emf;
 
-    public PhoneFacade() {
-    }
+    public PhoneFacade(EntityManagerFactory e) {
+    emf = e;
+  }
 
     public EntityManager getEntityManager() {
 
