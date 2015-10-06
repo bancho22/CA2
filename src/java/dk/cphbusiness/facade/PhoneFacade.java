@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dk.cphbusiness.facade;
 
 import dk.cphbusiness.entity.Phone;
+import exceptions.PhoneNotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -45,12 +41,44 @@ public class PhoneFacade {
     try {
       Phone p = em.find(Phone.class, id);
       if(p == null){
-        throw new Phone("No phone found with provided id");
+        throw new PhoneNotFoundException("No phone found with provided id");
       }
       em.getTransaction().begin();
       em.remove(p);
       em.getTransaction().commit();
       return p;
+    } finally {
+      em.close();
+    }
+  }
+    
+    
+    public Phone getPhone(int id) throws PhoneNotFoundException {
+    EntityManager em = getEntityManager();
+    try {
+      Phone p = em.find(Phone.class,id);
+       if(p == null){
+        throw new PhoneNotFoundException("No phone found with provided id");
+      }
+       return p;
+    } finally {
+      em.close();
+    }
+  }
+    
+    public Phone editPhone(Phone p) throws PhoneNotFoundException {
+    EntityManager em = getEntityManager();
+    try {
+      Phone edited = em.find(Phone.class,p.getId());
+       if(edited == null){
+        throw new PhoneNotFoundException("No Person found with provided id");
+      }
+      edited.setNumber(p.getNumber());
+      edited.setDescription(p.getDescription());
+      em.getTransaction().begin();
+      em.merge(edited);
+      em.getTransaction().commit();
+      return edited;
     } finally {
       em.close();
     }
