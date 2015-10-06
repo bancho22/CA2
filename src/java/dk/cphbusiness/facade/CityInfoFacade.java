@@ -18,87 +18,83 @@ import javax.persistence.Query;
  * @author user
  */
 public class CityInfoFacade {
+
     //private CityInfo cityInfo;
     //GET,ADD,EDIT,DELETE
+
     private EntityManagerFactory emf;
-    
-    public CityInfoFacade(EntityManagerFactory emf){
+
+    public CityInfoFacade(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    
-    private EntityManager getEntityManager(){
+
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
-    public CityInfo getCityInfo(int id){
+
+    public CityInfo getCityInfo(int id) {
         EntityManager em = getEntityManager();
-        CityInfo cityInfo =  null;
+        CityInfo cityInfo = null;
         try {
-            
-           cityInfo= em.find(CityInfo.class, id);
-            System.out.println(cityInfo.toString());
-            
+
+            cityInfo = em.find(CityInfo.class, id);
+//            System.out.println(cityInfo.toString());
+
         } finally {
-          em.close();  
+            em.close();
         }
-        return cityInfo;  
+        return cityInfo;
     }
-    
-    
-    
-    public CityInfo addCityInfo(CityInfo cityInfo){
+
+    public CityInfo addCityInfo(CityInfo cityInfo) {
         EntityManager em = getEntityManager();
-        
+
         try {
-            
-           
-            System.out.println(cityInfo.toString());
+
+//            System.out.println(cityInfo.toString());
             em.getTransaction().begin();
             em.persist(cityInfo);
             em.getTransaction().commit();
         } finally {
-          em.close();  
+            em.close();
         }
         return cityInfo;
-        
+
     }
-    
-    
-    public CityInfo editCityInfo(CityInfo cityInfo){
+
+    public CityInfo editCityInfo(CityInfo cityInfo) {
         EntityManager em = getEntityManager();
-        
+
         try {
-            
-           
-            
+
             em.getTransaction().begin();
             em.merge(cityInfo);
             em.getTransaction().commit();
         } finally {
-          em.close();  
+            em.close();
         }
         return cityInfo;
-        
+
     }
-    public CityInfo deleteCityInfo(int id){
+
+    public CityInfo deleteCityInfo(int id) {
         EntityManager em = getEntityManager();
         CityInfo cityInfo = null;
-        
+
         try {
-            
-           cityInfo = em.find(CityInfo.class, id);
-            
+
+            cityInfo = em.find(CityInfo.class, id);
+
             em.getTransaction().begin();
             em.remove(cityInfo);
             em.getTransaction().commit();
         } finally {
-          em.close();  
+            em.close();
         }
         return cityInfo;
-        
+
     }
-    
-    
+
 //    public List<Address> getAddresses(){
 //         EntityManager em = getEntityManager();
 //        List<Address> addresses = new ArrayList<Address>();
@@ -110,12 +106,4 @@ public class CityInfoFacade {
 //        }
 //        return addresses;
 //    }
-    
-    
-    
-    
-    
-    
-    
-    
 }

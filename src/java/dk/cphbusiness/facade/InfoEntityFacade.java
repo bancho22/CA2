@@ -20,117 +20,112 @@ import javax.persistence.Query;
  * @author user
  */
 public class InfoEntityFacade {
-    
+
     private EntityManagerFactory emf;
-    
-    public InfoEntityFacade(EntityManagerFactory emf){
+
+    public InfoEntityFacade(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    
-    private EntityManager getEntityManager(){
+
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
-    public InfoEntity getInfoEntity(int id){
+
+    public InfoEntity getInfoEntity(int id) {
         EntityManager em = getEntityManager();
         InfoEntity infoEntity = null;
-        try{
+        try {
             infoEntity = em.find(InfoEntity.class, id);
             Query query = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
             query.setParameter("owner", infoEntity);
             infoEntity.setPhones(query.getResultList());
-        }finally{
+        } finally {
             em.close();
         }
         return infoEntity;
     }
-    
-    public InfoEntity addInfoEntity(InfoEntity infoEntity){
+
+    public InfoEntity addInfoEntity(InfoEntity infoEntity) {
         EntityManager em = getEntityManager();
-        try{
+        try {
             em.getTransaction().begin();
             em.persist(infoEntity);
             em.getTransaction().commit();
-        }finally{
+        } finally {
             em.close();
         }
         return infoEntity;
     }
-    
-    public InfoEntity editInfoEntity(InfoEntity infoEntity){
+
+    public InfoEntity editInfoEntity(InfoEntity infoEntity) {
         EntityManager em = getEntityManager();
-        try{
+        try {
             em.getTransaction().begin();
             em.merge(infoEntity);
             em.getTransaction().commit();
-        }finally{
+        } finally {
             em.close();
         }
         return infoEntity;
     }
-    
-    public InfoEntity deleteInfoEntity(int id){
+
+    public InfoEntity deleteInfoEntity(int id) {
         EntityManager em = getEntityManager();
         InfoEntity infoEntity = null;
-        try{
+        try {
             infoEntity = em.find(InfoEntity.class, id);
             em.getTransaction().begin();
             em.remove(infoEntity);
             em.getTransaction().commit();
-        }finally{
+        } finally {
             em.close();
         }
         return infoEntity;
     }
-    
+
     //get a list of companies with more than xx employees
-    public List<Company> getCompanies(int numEmployees){
+    public List<Company> getCompanies(int numEmployees) {
         EntityManager em = getEntityManager();
         List<Company> companies = null;
-        try{
+        try {
             Query query = em.createQuery("SELECT c FROM Company c WHERE c.numEmployees > :num");
             query.setParameter("num", numEmployees);
             companies = query.getResultList();
-        }finally{
+        } finally {
             em.close();
         }
         return companies;
     }
-    
-    public Company getCompanyByPhone(String phone) throws PhoneDoesNotBelongToCompanyException{
+
+    public Company getCompanyByPhone(String phone) throws PhoneDoesNotBelongToCompanyException {
         EntityManager em = getEntityManager();
         Company company = null;
-        
+
         InfoEntity infoEntity = null;
-        try{
+        try {
             Query ownerQuery = em.createQuery("SELECT p.owner FROM Phone p WHERE p.number = :number");
             ownerQuery.setParameter("number", phone);
-            infoEntity =(InfoEntity) ownerQuery.getSingleResult();
-            company =(Company) infoEntity;
+            infoEntity = (InfoEntity) ownerQuery.getSingleResult();
             if (company.getClass().equals(Company.class)) {
-            Query companyQuery = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
-            companyQuery.setParameter("owner", company);
-            company.setPhones(companyQuery.getResultList());
-            }else{
-            throw new PhoneDoesNotBelongToCompanyException();
+                company = (Company) infoEntity;
+                Query companyQuery = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
+                companyQuery.setParameter("owner", company);
+                company.setPhones(companyQuery.getResultList());
+            } else {
+                throw new PhoneDoesNotBelongToCompanyException();
 
             }
-           
-            
-            
 
-            
-        }finally{
+        } finally {
             em.close();
         }
         return company;
     }
-    
-    
-    public Person getPersonByPhone(String phone) throws PhoneDoesNotBelongToPersonException{
+
+    public Person getPersonByPhone(String phone) throws PhoneDoesNotBelongToPersonException {
         EntityManager em = getEntityManager();
         Person person = null;
-        try{
+        try {
             Query query = em.createQuery("SELECT p.owner FROM Phone p WHERE p.number = :num");
             query.setParameter("num", phone);
             InfoEntity result = (InfoEntity) query.getSingleResult();
@@ -139,10 +134,10 @@ public class InfoEntityFacade {
                 Query phonesQuery = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
                 phonesQuery.setParameter("owner", person);
                 person.setPhones(phonesQuery.getResultList());
-            }else{
+            } else {
                 throw new PhoneDoesNotBelongToPersonException();
             }
-        }finally{
+        } finally {
             em.close();
         }
         return person;

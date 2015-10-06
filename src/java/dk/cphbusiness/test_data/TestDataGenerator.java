@@ -5,9 +5,14 @@
  */
 package dk.cphbusiness.test_data;
 
+import dk.cphbusiness.entity.Address;
 import dk.cphbusiness.entity.Company;
+import dk.cphbusiness.entity.InfoEntity;
 import dk.cphbusiness.entity.Person;
 import dk.cphbusiness.entity.Phone;
+import dk.cphbusiness.exceptions.AddressNotFoundException;
+import dk.cphbusiness.facade.AddressFacade;
+import dk.cphbusiness.facade.CityInfoFacade;
 import dk.cphbusiness.facade.InfoEntityFacade;
 import dk.cphbusiness.facade.PhoneFacade;
 import java.util.Random;
@@ -20,7 +25,7 @@ import javax.persistence.Persistence;
  */
 public class TestDataGenerator {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AddressNotFoundException {
         populateTables("CA2PU");
     }
     
@@ -28,8 +33,10 @@ public class TestDataGenerator {
     
     private static InfoEntityFacade ief;
     private static PhoneFacade pf;
+    private static AddressFacade af;
+    private static CityInfoFacade cif;
     
-    public static void populateTables(String persistenceUnitName){
+    public static void populateTables(String persistenceUnitName) throws AddressNotFoundException{
         
         Persistence.generateSchema(persistenceUnitName, null);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(persistenceUnitName);
@@ -37,13 +44,16 @@ public class TestDataGenerator {
         rand = new Random();
         ief = new InfoEntityFacade(emf);
         pf = new PhoneFacade(emf);
+        af = new AddressFacade(emf);
+        cif = new CityInfoFacade(emf);
         
+        populateAddressTable();
         populateInfoEntityTable();
         populatePhoneTable();
     }
     
     
-    private static void populateInfoEntityTable(){
+    private static void populateInfoEntityTable() throws AddressNotFoundException{
         final int NAME_ARRAYS_LENGTH = 7;
         
         String[] firstNames = new String[NAME_ARRAYS_LENGTH];
@@ -65,14 +75,20 @@ public class TestDataGenerator {
         lastNames[5] = "Petrov";
         lastNames[6] = "Macej";
         
+        int addressID = 0;
         for (int i = 0; i < 100; i++) {
             Person p = new Person();
             p.setFirstName(firstNames[rand.nextInt(NAME_ARRAYS_LENGTH)]);
             p.setLastName(lastNames[rand.nextInt(NAME_ARRAYS_LENGTH)]);
             p.setEmail(p.getFirstName().toLowerCase() + "-" + p.getLastName().toLowerCase() + "@gmail.com");
+            if (i % 2 == 0) {
+                addressID++;
+            }
+            p.setAddress(af.getAddress(addressID));
             ief.addInfoEntity(p);
         }
         
+        addressID = 50;
         for (int i = 0; i < 100; i++) {
             Company c = new Company();
             c.setEmail("comp" + i + "@info.com");
@@ -81,6 +97,7 @@ public class TestDataGenerator {
             c.setCvr(Integer.toString(rand.nextInt(1000)) + "-" + Integer.toString(rand.nextInt(1000)) + "-" + Integer.toString(rand.nextInt(1000)));
             c.setNumEmployees(rand.nextInt(1000));
             c.setMarketValue(rand.nextInt(1000000000));
+            c.setAddress(af.getAddress(++addressID));
             ief.addInfoEntity(c);
         }
     }
@@ -104,4 +121,20 @@ public class TestDataGenerator {
         }
     }
     
+    
+    private static void populateAddressTable(){
+        final int NUM_OF_ZIP_CODES = 1352;
+        final int STREET_NAMES_ARRAY_LENGTH = 2;
+        String[] streetNames = new String[STREET_NAMES_ARRAY_LENGTH];
+        streetNames[0] = "Baker st.";
+        streetNames[1] = "Spooner st.";
+        
+        for (int i = 0; i < 150; i++) {
+            Address address = new Address();
+            address.setStreet(streetNames[rand.nextInt(STREET_NAMES_ARRAY_LENGTH)]);
+            address.setAdditionalInfo("some info");
+            address.setCityInfo(cif.getCityInfo(rand.nextInt(NUM_OF_ZIP_CODES) + 1));
+            af.addAddress(address);
+        }
+    }
 }

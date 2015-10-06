@@ -9,6 +9,7 @@ import dk.cphbusiness.entity.Company;
 import dk.cphbusiness.entity.InfoEntity;
 import dk.cphbusiness.entity.Person;
 import dk.cphbusiness.entity.Phone;
+import dk.cphbusiness.exceptions.AddressNotFoundException;
 import dk.cphbusiness.exceptions.PhoneDoesNotBelongToPersonException;
 import dk.cphbusiness.exceptions.PhoneNotFoundException;
 import dk.cphbusiness.facade.InfoEntityFacade;
@@ -38,7 +39,7 @@ public class InfoEntityFacadeTest {
     }
     
     @BeforeClass
-    public static void setUpDataBase(){
+    public static void setUpDataBase() throws AddressNotFoundException{
         TestDataGenerator.populateTables(PERSISTENCE_UNIT_NAME);
     }
 
