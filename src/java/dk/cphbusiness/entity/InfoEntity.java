@@ -38,6 +38,15 @@ public class InfoEntity implements Serializable {
     public InfoEntity() {
     }
 
+    public InfoEntity(Integer id, String Email, List<Phone> phones, Address address) {
+        this.id = id;
+        this.Email = Email;
+        this.phones = phones;
+        this.address = address;
+    }
+    
+    
+
     public String getEmail() {
         return Email;
     }
