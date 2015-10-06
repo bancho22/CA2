@@ -24,7 +24,7 @@ public class CityInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String zipCode, city;
+    private String zip, city;
     @OneToMany(mappedBy = "cityInfo")
     private List<Address> cityAddresses;
 
@@ -32,11 +32,11 @@ public class CityInfo implements Serializable {
     }
 
     public String getZipCode() {
-        return zipCode;
+        return zip;
     }
 
     public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+        this.zip = zipCode;
     }
 
     public String getCity() {
