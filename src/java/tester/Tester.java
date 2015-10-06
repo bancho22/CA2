@@ -5,6 +5,8 @@
  */
 package tester;
 
+import dk.cphbusiness.entity.CityInfo;
+import dk.cphbusiness.facade.CityInfoFacade;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -17,6 +19,16 @@ public class Tester {
     public static void main(String[] args) {
         Persistence.generateSchema("CA2PU", null);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("CA2PU");
+        CityInfoFacade cityInfoFacade = new CityInfoFacade(emf);
+        CityInfo cityInfo = new CityInfo();
+        cityInfo.setCity("Columbia");
+        cityInfo.setZipCode("1300");
+        
+        cityInfo =cityInfoFacade.addCityInfo(cityInfo);
+        System.out.println(cityInfoFacade.getCityInfo(cityInfo.getId()).getId());
+        
+        
+        
     }
     
 }
