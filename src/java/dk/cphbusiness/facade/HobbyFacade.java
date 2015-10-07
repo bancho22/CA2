@@ -15,7 +15,7 @@ import javax.persistence.EntityManagerFactory;
  */
 public class HobbyFacade {
     
-    private EntityManagerFactory emf;
+    private  EntityManagerFactory emf;
 
     public HobbyFacade(EntityManagerFactory emf) {
         this.emf = emf;
@@ -64,9 +64,10 @@ public class HobbyFacade {
         EntityManager em = getEntityManager();
         Hobby hobby = null;
         try{
-            hobby = getHobby(id);
+            hobby = em.find(Hobby.class, id);
+                   
             em.getTransaction().begin();
-            em.remove(id);
+            em.remove(hobby);
             em.getTransaction().commit();
         }finally{
             em.close();

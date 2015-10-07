@@ -30,7 +30,9 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(dk.cphbusiness.api.CompanyApi.class);
+        resources.add(dk.cphbusiness.api.HobbyApi.class);
         resources.add(dk.cphbusiness.api.PersonApi.class);
+        resources.add(dk.cphbusiness.api.PhoneApi.class);
     }
     
 }

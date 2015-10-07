@@ -8,8 +8,11 @@ package dk.cphbusiness.facade;
 import dk.cphbusiness.entity.Company;
 import dk.cphbusiness.entity.InfoEntity;
 import dk.cphbusiness.entity.Person;
+import dk.cphbusiness.exceptions.CompanyNotFoundException;
+import dk.cphbusiness.exceptions.PersonNotFoundException;
 import dk.cphbusiness.exceptions.PhoneDoesNotBelongToCompanyException;
 import dk.cphbusiness.exceptions.PhoneDoesNotBelongToPersonException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -141,5 +144,149 @@ public class InfoEntityFacade {
             em.close();
         }
         return person;
+    }
+    
+    public Person getPerson(int id) throws PersonNotFoundException{
+        EntityManager em = getEntityManager();
+        InfoEntity ie = null;
+        Person person = null;
+        try {
+            ie = em.find(InfoEntity.class, id);
+            if (ie.getClass().equals(Person.class)) {
+                person = (Person) ie;
+                Query query = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
+                query.setParameter("owner", person);
+                person.setPhones(query.getResultList());
+            } else {
+                throw new PersonNotFoundException();
+            }
+        } finally {
+            em.close();
+        }
+        return person;
+    }
+    
+    public Person editPerson(Person p) throws PersonNotFoundException{
+        EntityManager em = getEntityManager();
+        InfoEntity ie = null;
+        try {
+            ie = em.find(InfoEntity.class, p.getId());
+            if (ie == null) {
+                throw new PersonNotFoundException();
+            }
+            if (ie.getClass().equals(Person.class) == false) {
+                throw new PersonNotFoundException();
+            }
+            em.getTransaction().begin();
+            em.merge(p);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return p;
+    }
+    
+    public Person deletePerson(int id) throws PersonNotFoundException {
+        EntityManager em = getEntityManager();
+        InfoEntity infoEntity = null;
+        try {
+            infoEntity = em.find(InfoEntity.class, id);
+            if (infoEntity == null) {
+                throw new PersonNotFoundException();
+            }
+            if (infoEntity.getClass().equals(Person.class) == false) {
+                throw new PersonNotFoundException();
+            }
+            em.getTransaction().begin();
+            em.remove(infoEntity);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return (Person) infoEntity;
+    }
+    
+    public Company getCompany(int id) throws CompanyNotFoundException{
+        EntityManager em = getEntityManager();
+        InfoEntity ie = null;
+        Company c = null;
+        try {
+            ie = em.find(InfoEntity.class, id);
+            if (ie.getClass().equals(Company.class)) {
+                c = (Company) ie;
+                Query query = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
+                query.setParameter("owner", c);
+                c.setPhones(query.getResultList());
+            } else {
+                throw new CompanyNotFoundException();
+            }
+        } finally {
+            em.close();
+        }
+        return c;
+    }
+    
+    public Company editPerson(Company c) throws CompanyNotFoundException{
+        EntityManager em = getEntityManager();
+        InfoEntity ie = null;
+        try {
+            ie = em.find(InfoEntity.class, c.getId());
+            if (ie == null) {
+                throw new CompanyNotFoundException();
+            }
+            if (ie.getClass().equals(Company.class) == false) {
+                throw new CompanyNotFoundException();
+            }
+            em.getTransaction().begin();
+            em.merge(c);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return c;
+    }
+    
+    public Company deleteCompany(int id) throws CompanyNotFoundException {
+        EntityManager em = getEntityManager();
+        InfoEntity infoEntity = null;
+        try {
+            infoEntity = em.find(InfoEntity.class, id);
+            if (infoEntity == null) {
+                throw new CompanyNotFoundException();
+            }
+            if (infoEntity.getClass().equals(Company.class) == false) {
+                throw new CompanyNotFoundException();
+            }
+            em.getTransaction().begin();
+            em.remove(infoEntity);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return (Company) infoEntity;
+    }
+    
+    public List<Company> getAllCompanies(){
+        EntityManager em = getEntityManager();
+        List<Company> companies = new ArrayList<Company>();
+        try{
+            Query query = em.createQuery("SELECT c FROM Company c");
+            companies = query.getResultList();
+        }finally{
+            em.close();
+        }
+        return companies;
+    }
+    
+    public List<Person> getAllPeople(){
+        EntityManager em = getEntityManager();
+        List<Person> people = new ArrayList<Person>();
+        try{
+            Query query = em.createQuery("SELECT p FROM Person p");
+            people = query.getResultList();
+        }finally{
+            em.close();
+        }
+        return people;
     }
 }
