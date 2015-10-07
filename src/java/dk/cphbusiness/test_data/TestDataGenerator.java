@@ -7,14 +7,18 @@ package dk.cphbusiness.test_data;
 
 import dk.cphbusiness.entity.Address;
 import dk.cphbusiness.entity.Company;
+import dk.cphbusiness.entity.Hobby;
 import dk.cphbusiness.entity.InfoEntity;
 import dk.cphbusiness.entity.Person;
 import dk.cphbusiness.entity.Phone;
 import dk.cphbusiness.exceptions.AddressNotFoundException;
 import dk.cphbusiness.facade.AddressFacade;
 import dk.cphbusiness.facade.CityInfoFacade;
+import dk.cphbusiness.facade.HobbyFacade;
 import dk.cphbusiness.facade.InfoEntityFacade;
 import dk.cphbusiness.facade.PhoneFacade;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -35,6 +39,7 @@ public class TestDataGenerator {
     private static PhoneFacade pf;
     private static AddressFacade af;
     private static CityInfoFacade cif;
+    private static HobbyFacade hf;
     
     public static void populateTables(String persistenceUnitName) throws AddressNotFoundException{
         
@@ -46,8 +51,10 @@ public class TestDataGenerator {
         pf = new PhoneFacade(emf);
         af = new AddressFacade(emf);
         cif = new CityInfoFacade(emf);
+        hf = new HobbyFacade(emf);
         
         populateAddressTable();
+        populateHobbyTable();
         populateInfoEntityTable();
         populatePhoneTable();
     }
@@ -81,10 +88,28 @@ public class TestDataGenerator {
             p.setFirstName(firstNames[rand.nextInt(NAME_ARRAYS_LENGTH)]);
             p.setLastName(lastNames[rand.nextInt(NAME_ARRAYS_LENGTH)]);
             p.setEmail(p.getFirstName().toLowerCase() + "-" + p.getLastName().toLowerCase() + "@gmail.com");
+            
             if (i % 2 == 0) {
                 addressID++;
             }
             p.setAddress(af.getAddress(addressID));
+            
+            ArrayList<Hobby> hobbies = new ArrayList<Hobby>();
+//            ArrayList<Integer> hobbiesPicked = new ArrayList<Integer>();
+//            for (int j = 0; j < 3; j++) {
+//                if (rand.nextInt(2) % 2 == 0) {
+//                    int idPicked;
+//                    do {                        
+//                        idPicked = rand.nextInt(5) + 1;
+//                    } while (idAlreadyPicked(idPicked, hobbiesPicked));
+//                    hobbiesPicked.add(idPicked);
+//                    hobbies.add(hf.getHobby(idPicked));
+//                }
+//                hobbiesPicked.clear();
+//            }
+            hobbies.add(hf.getHobby(rand.nextInt(5) + 1));
+            p.setHobbies(hobbies);
+            
             ief.addInfoEntity(p);
         }
         
@@ -136,5 +161,33 @@ public class TestDataGenerator {
             address.setCityInfo(cif.getCityInfo(rand.nextInt(NUM_OF_ZIP_CODES) + 1));
             af.addAddress(address);
         }
+    }
+    
+    
+    private static void populateHobbyTable(){
+        final int HOBBIES_ARRAY_LENGTH = 5;
+        String[] hobbies = new String[HOBBIES_ARRAY_LENGTH];
+        hobbies[0] = "drinking";
+        hobbies[1] = "swimming";
+        hobbies[2] = "stamp-collecting";
+        hobbies[3] = "bullying";
+        hobbies[4] = "coding";
+        
+        for (int i = 0; i < HOBBIES_ARRAY_LENGTH; i++) {
+            Hobby hobby = new Hobby();
+            hobby.setName(hobbies[i]);
+            hobby.setDescription("some cool desc here");
+            hf.addHobby(hobby);
+        }
+    }
+    
+    
+    private static boolean idAlreadyPicked(int n, ArrayList<Integer> list){
+        for (Integer i : list) {
+            if (n == i) {
+                return true;
+            }
+        }
+        return false;
     }
 }
