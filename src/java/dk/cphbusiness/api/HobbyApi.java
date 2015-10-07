@@ -57,19 +57,15 @@ public class HobbyApi {
     @PUT
     @Produces("application/json")
     @Consumes("application/json")
-    public String putJson(String name, String description) {
-        Hobby h = new Hobby();
-        h.setName(name);
-        h.setDescription(description);
-        h = facade.editHobby(h);
+    public String putJson(String json) {
+        Hobby h = gson.fromJson(json, Hobby.class);
         return gson.toJson(facade.editHobby(h));
     }
 
     @DELETE
     @Consumes("application/json")
-    public String deleteJson(@PathParam("id") int id) {
-        facade.deleteHobby(id);
-        return gson.toJson(facade.deleteHobby(id));
+    public String deleteJson(@PathParam("id") String id) {
+        return gson.toJson(facade.deleteHobby(Integer.parseInt(id)));
     }
 
 }
