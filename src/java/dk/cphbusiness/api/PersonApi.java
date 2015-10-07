@@ -7,6 +7,7 @@ package dk.cphbusiness.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dk.cphbusiness.converters.JSONInfoEntity;
 import dk.cphbusiness.entity.Person;
 import dk.cphbusiness.exceptions.PersonNotFoundException;
 import dk.cphbusiness.facade.InfoEntityFacade;
@@ -43,14 +44,14 @@ public class PersonApi {
         gson = new GsonBuilder().setPrettyPrinting().create();
     }
     
-    //to use: JsonObject jsonP = new JsonParser().parse(json).getAsJsonObject();
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
     public Response getPerson(@PathParam("id") String id) throws PersonNotFoundException{
-        
-        return Response.status(Response.Status.OK).entity(gson.toJson(ief.getPerson(Integer.parseInt(id)))).build();
+        Person p = ief.getPerson(Integer.parseInt(id));
+        String json = JSONInfoEntity.toJson(p).toString();
+        return Response.status(Response.Status.OK).entity(json).build();
     }
     
     @POST
@@ -58,21 +59,27 @@ public class PersonApi {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPerson(String json){
         Person p = gson.fromJson(json, Person.class);
-        return Response.status(Response.Status.OK).entity(gson.toJson(ief.addInfoEntity(p))).build();
+        p = (Person) ief.addInfoEntity(p);
+        json = JSONInfoEntity.toJson(p).toString();
+        return Response.status(Response.Status.CREATED).entity(json).build();
     }
     
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editPerson(String json){
+    public Response editPerson(String json) throws PersonNotFoundException{
         Person p = gson.fromJson(json, Person.class);
-        return Response.status(Response.Status.OK).entity(gson.toJson(ief.editInfoEntity(p))).build();
+        p = ief.editPerson(p);
+        json = JSONInfoEntity.toJson(p).toString();
+        return Response.status(Response.Status.OK).entity(json).build();
     }
     
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Response deletePerson(@PathParam("id") String id){
-        return Response.status(Response.Status.OK).entity(gson.toJson(ief.deleteInfoEntity(Integer.parseInt(id)))).build();
+    public Response deletePerson(@PathParam("id") String id) throws PersonNotFoundException{
+        Person p = ief.deletePerson(Integer.parseInt(id));
+        String json = JSONInfoEntity.toJson(p).toString();
+        return Response.status(Response.Status.OK).entity(json).build();
     }
 }

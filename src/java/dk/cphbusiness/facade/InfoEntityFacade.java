@@ -226,7 +226,7 @@ public class InfoEntityFacade {
         return c;
     }
     
-    public Company editPerson(Company c) throws CompanyNotFoundException{
+    public Company editCompany(Company c) throws CompanyNotFoundException{
         EntityManager em = getEntityManager();
         InfoEntity ie = null;
         try {

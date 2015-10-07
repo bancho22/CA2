@@ -33,6 +33,8 @@ public class ApplicationConfig extends Application {
         resources.add(dk.cphbusiness.api.HobbyApi.class);
         resources.add(dk.cphbusiness.api.PersonApi.class);
         resources.add(dk.cphbusiness.api.PhoneApi.class);
+        resources.add(dk.cphbusiness.exception_mappers.CompanyNotFoundExceptionMapper.class);
+        resources.add(dk.cphbusiness.exception_mappers.PersonNotFoundExceptionMapper.class);
     }
     
 }
