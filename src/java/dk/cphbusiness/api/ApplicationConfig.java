@@ -32,6 +32,7 @@ public class ApplicationConfig extends Application {
         resources.add(dk.cphbusiness.api.CompanyApi.class);
         resources.add(dk.cphbusiness.api.HobbyApi.class);
         resources.add(dk.cphbusiness.api.PersonApi.class);
+        resources.add(dk.cphbusiness.api.PhoneApi.class);
     }
     
 }
