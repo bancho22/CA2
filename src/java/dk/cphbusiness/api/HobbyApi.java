@@ -44,8 +44,8 @@ public class HobbyApi {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getHobby(@PathParam("id") int id) {
-        return gson.toJson(facade.getHobby(id));
+    public String getHobby(@PathParam("id") String id) {
+        return gson.toJson(facade.getHobby(Integer.parseInt(id)));
     }
 
     /**
