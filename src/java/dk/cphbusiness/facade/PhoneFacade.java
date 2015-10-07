@@ -66,23 +66,23 @@ public class PhoneFacade {
       em.close();
     }
   }
+   
     
-    public Phone editPhone(Phone p) throws PhoneNotFoundException {
-    EntityManager em = getEntityManager();
-    try {
-      Phone edited = em.find(Phone.class,p.getId());
-       if(edited == null){
-        throw new PhoneNotFoundException("No Person found with provided id");
-      }
-      edited.setNumber(p.getNumber());
-      edited.setDescription(p.getDescription());
-      em.getTransaction().begin();
-      em.merge(edited);
-      em.getTransaction().commit();
-      return edited;
-    } finally {
-      em.close();
+    public Phone editPhone(Phone p) throws PhoneNotFoundException{
+        EntityManager em = getEntityManager();
+        try{
+            if(p==null){
+                throw new PhoneNotFoundException("NO PERSON FOUND WITH PROVIDED ID");
+            }
+            em.getTransaction().begin();
+            em.merge(p);
+            em.getTransaction().commit();
+            return p;
+        }finally{
+            em.close();
+        }
+        
     }
-  }
+     
 
 }

@@ -58,7 +58,6 @@ public class PhoneApi {
     public String putPhone(String json) throws PhoneNotFoundException {
         Phone p = gson.fromJson(json, Phone.class);
         p = facade.editPhone(p);
-
         return JSONPhone.getJsonFromPhone(p).toString();
 
     }
