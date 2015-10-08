@@ -10,6 +10,7 @@ import dk.cphbusiness.entity.InfoEntity;
 import dk.cphbusiness.entity.Person;
 import dk.cphbusiness.entity.Phone;
 import dk.cphbusiness.exceptions.AddressNotFoundException;
+import dk.cphbusiness.exceptions.PersonNotFoundException;
 import dk.cphbusiness.exceptions.PhoneDoesNotBelongToPersonException;
 import dk.cphbusiness.exceptions.PhoneNotFoundException;
 import dk.cphbusiness.facade.InfoEntityFacade;
@@ -69,7 +70,7 @@ public class InfoEntityFacadeTest {
 
     @Test
     //for this test, I trust the methods in the PhoneFacade class
-    public void getPersonByPhoneTest() throws PhoneNotFoundException, PhoneDoesNotBelongToPersonException{
+    public void getPersonByPhoneTest() throws PhoneNotFoundException, PhoneDoesNotBelongToPersonException, PersonNotFoundException{
         Phone phone = pf.getPhone(200);
         
         InfoEntity owner = phone.getOwner();

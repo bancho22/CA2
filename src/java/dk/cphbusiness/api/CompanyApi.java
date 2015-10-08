@@ -4,10 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dk.cphbusiness.converters.JSONInfoEntity;
 import dk.cphbusiness.entity.Company;
+import dk.cphbusiness.entity.InfoEntity;
 import dk.cphbusiness.entity.Person;
 import dk.cphbusiness.exceptions.CompanyNotFoundException;
 import dk.cphbusiness.exceptions.PersonNotFoundException;
+import dk.cphbusiness.exceptions.PhoneDoesNotBelongToCompanyException;
 import dk.cphbusiness.facade.InfoEntityFacade;
+import java.util.List;
 import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -77,6 +80,24 @@ public class CompanyApi {
     public Response deleteCompany(@PathParam("id") String id) throws CompanyNotFoundException{
         Company c = ief.deleteCompany(Integer.parseInt(id));
         String json = JSONInfoEntity.toJson(c).toString();
+        return Response.status(Response.Status.OK).entity(json).build();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("byphone/{phone}")
+    public Response getCompanyByPhone(@PathParam("phone") String phone) throws PhoneDoesNotBelongToCompanyException, CompanyNotFoundException{
+        Company c = ief.getCompanyByPhone(phone);
+        String json = JSONInfoEntity.toJson(c).toString();
+        return Response.status(Response.Status.OK).entity(json).build();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("emplAbove/{num}")
+    public Response getCompaniesEmplAbove(@PathParam("num") String num){
+        List<Company> companies = ief.getCompanies(Integer.parseInt(num));
+        String json = JSONInfoEntity.companyListToJson(companies).toString();
         return Response.status(Response.Status.OK).entity(json).build();
     }
 }

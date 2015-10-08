@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 /**
@@ -89,7 +90,7 @@ public class InfoEntityFacade {
     //get a list of companies with more than xx employees
     public List<Company> getCompanies(int numEmployees) {
         EntityManager em = getEntityManager();
-        List<Company> companies = null;
+        List<Company> companies = new ArrayList<Company>();
         try {
             Query query = em.createQuery("SELECT c FROM Company c WHERE c.numEmployees > :num");
             query.setParameter("num", numEmployees);
@@ -100,7 +101,7 @@ public class InfoEntityFacade {
         return companies;
     }
 
-    public Company getCompanyByPhone(String phone) throws PhoneDoesNotBelongToCompanyException {
+    public Company getCompanyByPhone(String phone) throws PhoneDoesNotBelongToCompanyException, CompanyNotFoundException {
         EntityManager em = getEntityManager();
         Company company = null;
 
@@ -109,7 +110,10 @@ public class InfoEntityFacade {
             Query ownerQuery = em.createQuery("SELECT p.owner FROM Phone p WHERE p.number = :number");
             ownerQuery.setParameter("number", phone);
             infoEntity = (InfoEntity) ownerQuery.getSingleResult();
-            if (company.getClass().equals(Company.class)) {
+            if (infoEntity == null) {
+                throw new CompanyNotFoundException();
+            }
+            if (infoEntity.getClass().equals(Company.class)) {
                 company = (Company) infoEntity;
                 Query companyQuery = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
                 companyQuery.setParameter("owner", company);
@@ -119,19 +123,24 @@ public class InfoEntityFacade {
 
             }
 
+//        }catch(NonUniqueResultException e){ - no need to catch it, have an ExceptionMapper for it
+            
         } finally {
             em.close();
         }
         return company;
     }
 
-    public Person getPersonByPhone(String phone) throws PhoneDoesNotBelongToPersonException {
+    public Person getPersonByPhone(String phone) throws PhoneDoesNotBelongToPersonException, PersonNotFoundException {
         EntityManager em = getEntityManager();
         Person person = null;
         try {
             Query query = em.createQuery("SELECT p.owner FROM Phone p WHERE p.number = :num");
             query.setParameter("num", phone);
             InfoEntity result = (InfoEntity) query.getSingleResult();
+            if (result == null) {
+                throw new PersonNotFoundException();
+            }
             if (result.getClass().equals(Person.class)) {
                 person = (Person) result;
                 Query phonesQuery = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");

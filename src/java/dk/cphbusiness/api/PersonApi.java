@@ -8,8 +8,12 @@ package dk.cphbusiness.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dk.cphbusiness.converters.JSONInfoEntity;
+import dk.cphbusiness.entity.Company;
 import dk.cphbusiness.entity.Person;
+import dk.cphbusiness.exceptions.CompanyNotFoundException;
 import dk.cphbusiness.exceptions.PersonNotFoundException;
+import dk.cphbusiness.exceptions.PhoneDoesNotBelongToCompanyException;
+import dk.cphbusiness.exceptions.PhoneDoesNotBelongToPersonException;
 import dk.cphbusiness.facade.InfoEntityFacade;
 import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;
@@ -82,4 +86,14 @@ public class PersonApi {
         String json = JSONInfoEntity.toJson(p).toString();
         return Response.status(Response.Status.OK).entity(json).build();
     }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("byphone/{phone}")
+    public Response getPersonByPhone(@PathParam("phone") String phone) throws PhoneDoesNotBelongToPersonException, PersonNotFoundException{
+        Person p = ief.getPersonByPhone(phone);
+        String json = JSONInfoEntity.toJson(p).toString();
+        return Response.status(Response.Status.OK).entity(json).build();
+    }
+
 }

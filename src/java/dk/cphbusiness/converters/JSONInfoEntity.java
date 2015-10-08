@@ -54,4 +54,12 @@ public class JSONInfoEntity {
         return jsonPeople;
     }
     
+    public static JsonArray companyListToJson(List<Company> infoEntities){
+        JsonArray jsonPeople = new JsonArray();
+        for (InfoEntity ie : infoEntities) {
+            jsonPeople.add(toJson(ie));
+        }
+        return jsonPeople;
+    }
+
 }
