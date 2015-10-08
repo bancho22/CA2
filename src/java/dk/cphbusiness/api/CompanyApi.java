@@ -98,6 +98,7 @@ public class CompanyApi {
     public Response getCompaniesEmplAbove(@PathParam("num") String num){
         List<Company> companies = ief.getCompanies(Integer.parseInt(num));
         String json = JSONInfoEntity.companyListToJson(companies).toString();
+        
         return Response.status(Response.Status.OK).entity(json).build();
     }
 }

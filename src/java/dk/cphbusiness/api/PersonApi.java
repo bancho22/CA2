@@ -100,7 +100,7 @@ public class PersonApi {
     @Path("byhobby/{hobby}")
     public Response getCountOfPeopleWithHobby(@PathParam("hobby") String hobby) throws PhoneDoesNotBelongToPersonException, PersonNotFoundException{
         int p = ief.getCountOfPeopleWithHobby(hobby);
-        //String json = JSONInfoEntity.toJson(p).toString();
+        //String json = JSONHobby.toJson(p).toString();
         return Response.status(Response.Status.OK).entity(p).build();
     }
     
@@ -110,8 +110,8 @@ public class PersonApi {
     @Path("byhobby/{hobby}")
     public Response getPeopleWithHobby(@PathParam("hobby") String hobby) throws PhoneDoesNotBelongToPersonException, PersonNotFoundException{
         List<Person> p = ief.getPeopleWithHobby(hobby);
-        //String json = JSONInfoEntity.toJson(p).toString();
-        return Response.status(Response.Status.OK).entity(p).build();
+        String json = JSONInfoEntity.PersonListToJson(p).toString();
+        return Response.status(Response.Status.OK).entity(json).build();
     }
 
 }

@@ -16,17 +16,14 @@ function findCompany() {
             $("#table").html("");
             $("#table").html("<tr><th>Name</th>  <th>Description</th>  <th>Cvr</th>  <th>Number of Employees</th></tr>");
             $("#table").append('<tr><td>' +
-                    person.firstname + '</td><td>' +
-                    company.description + '</td><td>' +
-                    company.cvr + '</td><td>' +
-                    company.numEmployees + '</td><td>' +
-                    company.markedValue + '</td><td>' 
+                    person.firstname + '</td><td>'
+                    
                     
                     
 
                     );
             
-            $("#find").html(company.name);
+           
         }
     });
 }

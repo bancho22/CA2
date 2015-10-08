@@ -13,6 +13,7 @@ function findCompany() {
         type: 'GET',
         url: "api/company/byphone/" + $("#search").val(),
         success: function (company) {
+            
             $("#table").html("");
             $("#table").html("<tr><th>Name</th>  <th>Description</th>  <th>Cvr</th>  <th>Number of Employees</th></tr>");
             $("#table").append('<tr><td>' +
@@ -26,7 +27,7 @@ function findCompany() {
 
                     );
             
-            $("#find").html(company.name);
+            
         }
     });
 }

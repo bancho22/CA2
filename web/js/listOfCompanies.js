@@ -9,8 +9,10 @@ function init() {
 function findCompany() {
     $.ajax({
         type: 'GET',
-        url: "api/company/emp/above/" + $("#search").val(),
+        url: "api/company/emplAbove/" + $("#search").val(),
         success: function (company) {
+            var compamy;
+            for(compamy in company){
             $("#table").html("");
             $("#table").html("<tr><th>Name</th>  <th>Description</th>  <th>Cvr</th>  <th>Number of Employees</th></tr>");
             $("#table").append('<tr><td>' +
@@ -20,9 +22,9 @@ function findCompany() {
                     company.numEmployees + '</td><td>' +
                     company.markedValue + '</td><td>' 
                     
-                    
-
                     );
+            } 
+
 
         }
     });
