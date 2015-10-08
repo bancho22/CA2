@@ -152,6 +152,9 @@ public class InfoEntityFacade {
         Person person = null;
         try {
             ie = em.find(InfoEntity.class, id);
+            if (ie == null) {
+                throw new PersonNotFoundException();
+            }
             if (ie.getClass().equals(Person.class)) {
                 person = (Person) ie;
                 Query query = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
@@ -212,6 +215,9 @@ public class InfoEntityFacade {
         Company c = null;
         try {
             ie = em.find(InfoEntity.class, id);
+            if (ie == null) {
+                throw new CompanyNotFoundException();
+            }
             if (ie.getClass().equals(Company.class)) {
                 c = (Company) ie;
                 Query query = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
