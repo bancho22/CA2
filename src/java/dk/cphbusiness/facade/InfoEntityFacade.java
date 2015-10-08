@@ -178,6 +178,43 @@ public class InfoEntityFacade {
         return person;
     }
     
+    public List<Person> getPeopleWithHobby(String hobbyName) throws PersonNotFoundException{
+         EntityManager em = getEntityManager();
+        List<Person> person = null;
+        try {
+            Query query = em.createQuery("SELECT h.peopleEnjoying FROM Hobby h WHERE h.name = :name");
+            query.setParameter("name", hobbyName);
+            InfoEntity result = (InfoEntity) query.getSingleResult();
+            if (result == null) {
+                throw new PersonNotFoundException();
+            }
+            
+        } finally {
+            em.close();
+        }
+        return person;
+        
+    }
+    public int getCountOfPeopleWithHobby(String hobbyName) throws PersonNotFoundException{
+         EntityManager em = getEntityManager();
+        List<Person> person = null;
+        try {
+            Query query = em.createQuery("SELECT h.peopleEnjoying FROM Hobby h WHERE h.name = :name");
+            query.setParameter("name", hobbyName);
+            InfoEntity result = (InfoEntity) query.getSingleResult();
+            if (result == null) {
+                throw new PersonNotFoundException();
+            }
+            
+        } finally {
+            em.close();
+            
+        }
+        
+        return person.size();
+        
+    }
+    
     public Person editPerson(Person p) throws PersonNotFoundException{
         EntityManager em = getEntityManager();
         InfoEntity ie = null;
