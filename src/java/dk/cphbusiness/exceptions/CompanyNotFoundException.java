@@ -11,7 +11,7 @@ package dk.cphbusiness.exceptions;
  */
 public class CompanyNotFoundException extends Exception {
 
-    public CompanyNotFoundException(String message) {
+    public CompanyNotFoundException() {
                     super("The Company you requested has not been found");
 
     }
