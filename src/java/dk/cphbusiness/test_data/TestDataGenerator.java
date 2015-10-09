@@ -12,6 +12,7 @@ import dk.cphbusiness.entity.InfoEntity;
 import dk.cphbusiness.entity.Person;
 import dk.cphbusiness.entity.Phone;
 import dk.cphbusiness.exceptions.AddressNotFoundException;
+import dk.cphbusiness.exceptions.HobbyNotFoundException;
 import dk.cphbusiness.facade.AddressFacade;
 import dk.cphbusiness.facade.CityInfoFacade;
 import dk.cphbusiness.facade.HobbyFacade;
@@ -29,7 +30,7 @@ import javax.persistence.Persistence;
  */
 public class TestDataGenerator {
     
-    public static void main(String[] args) throws AddressNotFoundException {
+    public static void main(String[] args) throws AddressNotFoundException, HobbyNotFoundException {
         populateTables("CA2PU");
     }
     
@@ -41,7 +42,7 @@ public class TestDataGenerator {
     private static CityInfoFacade cif;
     private static HobbyFacade hf;
     
-    public static void populateTables(String persistenceUnitName) throws AddressNotFoundException{
+    public static void populateTables(String persistenceUnitName) throws AddressNotFoundException, HobbyNotFoundException{
         
         Persistence.generateSchema(persistenceUnitName, null);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(persistenceUnitName);
@@ -60,7 +61,7 @@ public class TestDataGenerator {
     }
     
     
-    private static void populateInfoEntityTable() throws AddressNotFoundException{
+    private static void populateInfoEntityTable() throws AddressNotFoundException, HobbyNotFoundException{
         final int NAME_ARRAYS_LENGTH = 7;
         
         String[] firstNames = new String[NAME_ARRAYS_LENGTH];

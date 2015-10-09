@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.*;
 import dk.cphbusiness.converters.JSONHobby;
 import dk.cphbusiness.entity.Hobby;
+import dk.cphbusiness.exceptions.HobbyNotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.Response;
 
@@ -38,7 +39,7 @@ public class HobbyApi {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Response getHobby(@PathParam("id") String id) {
+    public Response getHobby(@PathParam("id") String id) throws HobbyNotFoundException {
         Hobby h = facade.getHobby(Integer.parseInt(id));
         String temp = JSONHobby.getJsonFromHobby(h).toString();
         return Response.status(Response.Status.OK).entity(temp).build();
@@ -57,7 +58,7 @@ public class HobbyApi {
     @PUT
     @Produces("application/json")
     @Consumes("application/json")
-    public Response putHobby(String json) {
+    public Response putHobby(String json) throws HobbyNotFoundException {
         Hobby h = gson.fromJson(json, Hobby.class);
         h = facade.editHobby(h);
         String temp = JSONHobby.getJsonFromHobby(h).toString();
@@ -68,7 +69,7 @@ public class HobbyApi {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    public Response deleteHobby(@PathParam("id") String id) {
+    public Response deleteHobby(@PathParam("id") String id) throws HobbyNotFoundException {
         Hobby h = facade.deleteHobby(Integer.parseInt(id));
         String temp = JSONHobby.getJsonFromHobby(h).toString();
         return Response.status(Response.Status.OK).entity(temp).build();
