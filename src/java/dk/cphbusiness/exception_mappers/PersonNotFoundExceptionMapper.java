@@ -8,7 +8,6 @@ package dk.cphbusiness.exception_mappers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import dk.cphbusiness.exceptions.CompanyNotFoundException;
 import dk.cphbusiness.exceptions.PersonNotFoundException;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;

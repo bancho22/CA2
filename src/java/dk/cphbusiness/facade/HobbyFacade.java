@@ -6,6 +6,7 @@
 package dk.cphbusiness.facade;
 
 import dk.cphbusiness.entity.Hobby;
+import dk.cphbusiness.exceptions.HobbyNotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -25,7 +26,7 @@ public class HobbyFacade {
         return emf.createEntityManager();
     }
     
-    public Hobby getHobby(int id){
+    public Hobby getHobby(int id)throws HobbyNotFoundException{
         EntityManager em = getEntityManager();
         Hobby hobby = null;
         try{
@@ -48,7 +49,7 @@ public class HobbyFacade {
         return hobby;
     }
     
-    public Hobby editHobby(Hobby hobby){
+    public Hobby editHobby(Hobby hobby)throws HobbyNotFoundException{
         EntityManager em = getEntityManager();
         try{
             em.getTransaction().begin();
@@ -60,7 +61,7 @@ public class HobbyFacade {
         return hobby;
     }
     
-    public Hobby deleteHobby(int id){
+    public Hobby deleteHobby(int id)throws HobbyNotFoundException{
         EntityManager em = getEntityManager();
         Hobby hobby = null;
         try{
