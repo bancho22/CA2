@@ -52,7 +52,7 @@ public class PersonAPI_Test {
                 .get("/10000")
         .then()
                 .statusCode(404)
-                .body("msg", equalTo("dk.cphbusiness.exceptions.PersonNotFoundException"));
+                .body("msg", equalTo("There is no person with the info"));
     }
     
 }
