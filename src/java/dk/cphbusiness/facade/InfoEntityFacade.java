@@ -212,7 +212,7 @@ public class InfoEntityFacade {
             Query query = em.createQuery("SELECT h.id FROM Hobby h WHERE h.name = :name");
             query.setParameter("name", hobbyName);
             InfoEntity result = (InfoEntity) query.getSingleResult();
-            Query query1 = em.createQuery("SELECT h.peopleEnjoying_Id FROM infoentity_hobby h Where h.id =:id");
+            Query query1 = em.createQuery("SELECT h.peopleEnjoying_ID FROM infoentity_hobby h Where h.hobbies_id =:id");
             query1.setParameter("id", result);
             person = query.getResultList();
             //javascreipt files htmls 
@@ -221,7 +221,9 @@ public class InfoEntityFacade {
             //CityInfo Facade and a little bit of the InfoEntity Facade
             //Entity Classes and database we did together
             if (result == null) {
+                
                 throw new PersonNotFoundException();
+                
             }
             
         } finally {
