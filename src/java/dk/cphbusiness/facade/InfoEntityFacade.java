@@ -182,9 +182,19 @@ public class InfoEntityFacade {
          EntityManager em = getEntityManager();
         List<Person> person = null;
         try {
-            Query query = em.createQuery("SELECT h.peopleEnjoying FROM Hobby h WHERE h.name = :name");
+            Query query = em.createQuery("SELECT h.id FROM Hobby h WHERE h.name = :name");
             query.setParameter("name", hobbyName);
             InfoEntity result = (InfoEntity) query.getSingleResult();
+            Query query1 = em.createQuery("SELECT h.peopleEnjoying_Id FROM infoentity_hobby h Where h.id =:id");
+            query1.setParameter("id", result);
+            person = query.getResultList();
+            //javascreipt files htmls 
+            //methods in the apis for hobby company and person 
+            //Exceptions and exception Mappers
+            //CityInfo Facade and a little bit of the InfoEntity Facade
+            //Entity Classes and database we did together
+            
+            
             if (result == null) {
                 throw new PersonNotFoundException();
             }
