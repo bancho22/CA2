@@ -23,15 +23,16 @@ function getPerson() {
 }
 ;
 function addPerson() {
-                            
+          var person = {firstName:$("#firstName"), lastName:$("#lastName")};  
+          JSON.stringify(person);
 
     $.ajax({
         type: 'POST',
         url: "api/person/",
-        data:$("#firstName") + $("#lastName"),
+        data:person,
         success: function (person) {
             
-            $("#table").html(person.firstName + " " + person.lastName);
+            $("#person").html(person.firstName + " " + person.lastName);
             
             
             
