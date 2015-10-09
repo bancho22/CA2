@@ -95,14 +95,14 @@ public class PersonApi {
     }
     
     
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("byhobby/{hobby}")
-    public Response getCountOfPeopleWithHobby(@PathParam("hobby") String hobby) throws PhoneDoesNotBelongToPersonException, PersonNotFoundException{
-        int p = ief.getCountOfPeopleWithHobby(hobby);
-        //String json = JSONHobby.toJson(p).toString();
-        return Response.status(Response.Status.OK).entity(p).build();
-    }
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("byhobby/{hobby}")
+//    public Response getCountOfPeopleWithHobby(@PathParam("hobby") String hobby) throws PhoneDoesNotBelongToPersonException, PersonNotFoundException{
+//        int p = ief.getCountOfPeopleWithHobby(hobby);
+//        //String json = JSONHobby.toJson(p).toString();
+//        return Response.status(Response.Status.OK).entity(p).build();
+//    }
     
     
      @GET
