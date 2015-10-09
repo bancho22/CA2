@@ -211,7 +211,7 @@ public class InfoEntityFacade {
         try {
             Query query = em.createQuery("SELECT h.id FROM Hobby h WHERE h.name = :name");
             query.setParameter("name", hobbyName);
-            InfoEntity result = (InfoEntity) query.getSingleResult();
+            int result = (int) query.getSingleResult();
             Query query1 = em.createQuery("SELECT h.peopleEnjoying_ID FROM infoentity_hobby h Where h.hobbies_id =:id");
             query1.setParameter("id", result);
             person = query.getResultList();
@@ -220,7 +220,7 @@ public class InfoEntityFacade {
             //Exceptions and exception Mappers
             //CityInfo Facade and a little bit of the InfoEntity Facade
             //Entity Classes and database we did together
-            if (result == null) {
+            if (person == null) {
                 
                 throw new PersonNotFoundException();
                 
