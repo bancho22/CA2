@@ -95,15 +95,5 @@ public class CityInfoFacade {
 
     }
 
-//    public List<Address> getAddresses(){
-//         EntityManager em = getEntityManager();
-//        List<Address> addresses = new ArrayList<Address>();
-//        try{
-//        Query query = em.createNamedQuery("Address.findAll");
-//            addresses = query.getResultList();
-//        }finally{
-//            em.close();
-//        }
-//        return addresses;
-//    }
+
 }

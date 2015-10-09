@@ -12,6 +12,7 @@ package dk.cphbusiness.exceptions;
 public class PhoneDoesNotBelongToPersonException extends Exception {
 
     public PhoneDoesNotBelongToPersonException() {
+        super("There is no person with the provided phone");
     }
     
     

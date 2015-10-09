@@ -8,7 +8,6 @@ package dk.cphbusiness.exception_mappers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import dk.cphbusiness.exceptions.CompanyNotFoundException;
 import dk.cphbusiness.exceptions.PersonNotFoundException;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
@@ -34,7 +33,7 @@ public class PersonNotFoundExceptionMapper implements ExceptionMapper<PersonNotF
         boolean isDebug = context.getInitParameter("debug").equals("true");
         JsonObject eObj = new JsonObject();
         eObj.addProperty("code", 404);
-        eObj.addProperty("msg", e.toString());
+        eObj.addProperty("msg", e.getMessage());
         if (isDebug) {
             eObj.addProperty("stackTrace", e.getStackTrace().toString());
         }

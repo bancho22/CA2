@@ -32,7 +32,7 @@ public class HobbyNotFoundExceptionMapper implements ExceptionMapper<HobbyNotFou
         boolean isDebug = context.getInitParameter("debug").equals("true");
         JsonObject eObj = new JsonObject();
         eObj.addProperty("code", 404);
-        eObj.addProperty("msg", e.toString());
+        eObj.addProperty("msg", e.getMessage());
         if (isDebug) {
             eObj.addProperty("stackTrace", e.getStackTrace().toString());
         }
