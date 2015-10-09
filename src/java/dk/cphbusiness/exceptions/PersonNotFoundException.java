@@ -12,7 +12,10 @@ package dk.cphbusiness.exceptions;
 public class PersonNotFoundException extends Exception {
 
     public PersonNotFoundException() {
+        
+        super("There is no person with the info");
     }
+    
     
     
     
