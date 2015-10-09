@@ -8,13 +8,9 @@ package dk.cphbusiness.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dk.cphbusiness.converters.JSONAddress;
-import dk.cphbusiness.converters.JSONInfoEntity;
 import dk.cphbusiness.entity.Address;
-import dk.cphbusiness.entity.Person;
 import dk.cphbusiness.exceptions.AddressNotFoundException;
-import dk.cphbusiness.exceptions.PersonNotFoundException;
 import dk.cphbusiness.facade.AddressFacade;
-import dk.cphbusiness.facade.InfoEntityFacade;
 import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -50,7 +46,7 @@ public class AddressApi {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Response getPerson(@PathParam("id") String id) throws AddressNotFoundException{
+    public Response getAddress(@PathParam("id") String id) throws AddressNotFoundException{
         Address a = af.getAddress(Integer.parseInt(id));
         String json = JSONAddress.toJson(a).toString();
         return Response.status(Response.Status.OK).entity(json).build();
@@ -59,7 +55,7 @@ public class AddressApi {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addPerson(String json){
+    public Response addAddress(String json){
         Address a = gson.fromJson(json, Address.class);
         a = af.addAddress(a);
         json = JSONAddress.toJson(a).toString();
@@ -69,7 +65,7 @@ public class AddressApi {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editPerson(String json) throws AddressNotFoundException{
+    public Response editAddress(String json) throws AddressNotFoundException{
         Address a = gson.fromJson(json, Address.class);
         a = af.editAddress(a);
         json = JSONAddress.toJson(a).toString();
@@ -79,7 +75,7 @@ public class AddressApi {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Response deletePerson(@PathParam("id") String id) throws AddressNotFoundException{
+    public Response deleteAddress(@PathParam("id") String id) throws AddressNotFoundException{
         Address a = af.deleteAddress(Integer.parseInt(id));
         String json = JSONAddress.toJson(a).toString();
         return Response.status(Response.Status.OK).entity(json).build();
