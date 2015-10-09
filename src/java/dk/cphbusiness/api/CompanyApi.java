@@ -2,6 +2,7 @@ package dk.cphbusiness.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import deploy.DeploymentConfiguration;
 import dk.cphbusiness.converters.JSONInfoEntity;
 import dk.cphbusiness.entity.Company;
 import dk.cphbusiness.exceptions.CompanyNotFoundException;
@@ -37,7 +38,7 @@ public class CompanyApi {
     private Gson gson;
     
     public CompanyApi() {
-        ief = new InfoEntityFacade(Persistence.createEntityManagerFactory("CA2PU"));
+        ief = new InfoEntityFacade(Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME));
         gson = new GsonBuilder().setPrettyPrinting().create();
     }
     

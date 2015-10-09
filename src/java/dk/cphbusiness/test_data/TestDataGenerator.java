@@ -5,6 +5,7 @@
  */
 package dk.cphbusiness.test_data;
 
+import deploy.DeploymentConfiguration;
 import dk.cphbusiness.entity.Address;
 import dk.cphbusiness.entity.Company;
 import dk.cphbusiness.entity.Hobby;
@@ -31,7 +32,7 @@ import javax.persistence.Persistence;
 public class TestDataGenerator {
     
     public static void main(String[] args) throws AddressNotFoundException, HobbyNotFoundException {
-        populateTables("CA2PU");
+        populateTables(DeploymentConfiguration.PU_NAME);
     }
     
     private static Random rand;

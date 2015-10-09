@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import com.google.gson.*;
+import deploy.DeploymentConfiguration;
 import dk.cphbusiness.converters.JSONHobby;
 import dk.cphbusiness.entity.Hobby;
 import dk.cphbusiness.exceptions.HobbyNotFoundException;
@@ -30,7 +31,7 @@ public class HobbyApi {
     @Context
     private UriInfo context;
 
-    HobbyFacade facade = new HobbyFacade(Persistence.createEntityManagerFactory("CA2PU"));
+    HobbyFacade facade = new HobbyFacade(Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME));
     private static Gson gson = new GsonBuilder().setPrettyPrinting().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();
 
     public HobbyApi() {

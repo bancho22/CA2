@@ -7,6 +7,7 @@ package dk.cphbusiness.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import deploy.DeploymentConfiguration;
 import dk.cphbusiness.converters.JSONAddress;
 import dk.cphbusiness.entity.Address;
 import dk.cphbusiness.exceptions.AddressNotFoundException;
@@ -38,7 +39,7 @@ public class AddressApi {
     private Gson gson;
     
     public AddressApi() {
-        af = new AddressFacade(Persistence.createEntityManagerFactory("CA2PU"));
+        af = new AddressFacade(Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME));
         gson = new GsonBuilder().setPrettyPrinting().create();
     }
     

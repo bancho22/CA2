@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import com.google.gson.*;
+import deploy.DeploymentConfiguration;
 import dk.cphbusiness.converters.JSONPhone;
 import dk.cphbusiness.entity.Phone;
 import dk.cphbusiness.exceptions.PhoneNotFoundException;
@@ -29,7 +30,7 @@ public class PhoneApi {
     @Context
     private UriInfo context;
 
-    PhoneFacade facade = new PhoneFacade(Persistence.createEntityManagerFactory("CA2PU"));
+    PhoneFacade facade = new PhoneFacade(Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME));
     private static Gson gson = new GsonBuilder().setPrettyPrinting().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();
 
     public PhoneApi() {
