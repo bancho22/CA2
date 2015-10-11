@@ -20,7 +20,6 @@ import dk.cphbusiness.facade.HobbyFacade;
 import dk.cphbusiness.facade.InfoEntityFacade;
 import dk.cphbusiness.facade.PhoneFacade;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -32,11 +31,7 @@ import javax.persistence.Persistence;
 public class TestDataGenerator {
     
     public static void main(String[] args) throws AddressNotFoundException, HobbyNotFoundException {
-<<<<<<< Updated upstream
         populateTables(DeploymentConfiguration.PU_NAME);
-=======
-        populateTables("CA2PU");
->>>>>>> Stashed changes
     }
     
     private static Random rand;
