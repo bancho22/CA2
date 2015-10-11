@@ -32,7 +32,11 @@ import javax.persistence.Persistence;
 public class TestDataGenerator {
     
     public static void main(String[] args) throws AddressNotFoundException, HobbyNotFoundException {
+<<<<<<< Updated upstream
         populateTables(DeploymentConfiguration.PU_NAME);
+=======
+        populateTables("CA2PU");
+>>>>>>> Stashed changes
     }
     
     private static Random rand;
